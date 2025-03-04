@@ -71,6 +71,16 @@ Vue.mixin({
             }
             return false
         },
+        numberWithCommas: function (num) {
+            if (typeof num !== 'undefined' && num !== null) {
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+        },
+        kFormatter: function (num) {
+            if (typeof num !== 'undefined' && num !== null) {
+                return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'K' : Math.sign(num)*Math.abs(num)
+            }
+        }
     }
 })
 /*import Echo from 'laravel-echo';

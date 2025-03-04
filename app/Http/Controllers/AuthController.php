@@ -15,7 +15,7 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $request->validate(
+        /*$request->validate(
             [
             'email' => 'required|string|email|exists:users,email',
             'password' => 'required|string',
@@ -28,7 +28,24 @@ class AuthController extends Controller
             ]
         );
 
-        $credentials = request(['email','password']);
+        $credentials = request(['email','password']);*/
+        $login = request()->input('email');
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $namaField = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'Email' : 'NPSN';
+        request()->merge([$field => $login]);
+        $request->validate(
+            [
+                $field => 'required|string|exists:users,'.$field ,
+                'password' => 'required|string',
+                'remember_me' => 'boolean'
+            ],
+            [
+                $field.'.required' => $namaField.' tidak boleh kosong',
+                $field.'.exists' => $namaField.' tidak terdaftar',
+                'password.required' => 'Password tidak boleh kosong'
+            ]
+        );
+        $credentials = request([$field,'password']);
         if(!Auth::attempt($credentials))
         {
             return response()->json([
@@ -366,6 +383,7 @@ class AuthController extends Controller
                     'name' => ['required', 'string', 'max:255'],
                     'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
                     'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+                    'wa' => ['required', 'string'],
                 ],
                 [
                     'name.required' => 'Nama Lengkap tidak boleh kosong!',
@@ -374,10 +392,11 @@ class AuthController extends Controller
                     'email.unique' => 'Email sudah terdaftar di Database!',
                     'photo.mimes' => 'Foto harus berekstensi jpg/jpeg/png',
                     'photo.max' => 'Ukuran foto tidak boleh lebih dari 1 MB!',
+                    'wa.required' => 'Whatsapp tidak boleh kosong!',
                 ],
             );
             $user->name = request()->name;
-            //$user->email = request()->email;
+            $user->wa = request()->wa;
             $user->email = request()->email;
             //profile-photos
             if(request()->photo){

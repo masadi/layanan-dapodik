@@ -2,7 +2,7 @@ export default [
   {
     path: '/mutasi-masuk',
     name: 'mutasi-masuk',
-    component: () => import('@/views/pages/Blank.vue'),
+    component: () => import('@/views/MutasiMasuk.vue'),
     meta: {
       resource: 'Web',
       action: 'read',

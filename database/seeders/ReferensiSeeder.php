@@ -18,17 +18,16 @@ class ReferensiSeeder extends Seeder
      */
     public function run()
     {
-        $roles = Role::all();
-        $permissions = Permission::all();
+        $roles = Role::where('name', 'administrator')->first();
         $user = User::create([
+            'username' => 'administrator',
             'email' => 'admin@admin.com',
             'password' => bcrypt('Qwerty123'),
             'name' => 'Administrator',
             'description' => 'Administrator',
             'status' => 1,
         ]);
-        $user->attachRoles($roles);
-        $user->attachPermissions($permissions);
+        $user->attachRole($roles);
         $this->command->info('ref seeder');
     }
 }

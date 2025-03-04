@@ -14,6 +14,8 @@ return [
     'roles_structure' => [
         'administrator' => [],
         'sekolah' => [],
+        'dikdas' => [],
+        'dikmen' => [],
     ],
 
     'permissions_map' => [

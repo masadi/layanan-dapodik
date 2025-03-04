@@ -17,6 +17,32 @@ export default [
     },
   },
   {
+    path: '/pengguna',
+    name: 'pengguna',
+    component: () => import('@/views/pages/Blank.vue'),
+    meta: {
+      resource: 'Web',
+      action: 'read',
+      pageTitle: 'Pengguna',
+      breadcrumb: [
+        {
+          text: 'Data Pengguna',
+          active: true,
+        },
+      ],
+      tombol_add: [
+        {
+          action: 'add-pengguna',
+          link: '',
+          icon: 'plus',
+          variant: 'primary',
+          text: 'Tambah Data',
+          role: ['administrator'],
+        }
+      ],
+    },
+  },
+  {
     path: '/profile',
     name: 'profile',
     component: () => import('@/views/pages/Profile.vue'),

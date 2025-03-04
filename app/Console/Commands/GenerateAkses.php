@@ -33,12 +33,22 @@ class GenerateAkses extends Command
         $abilities = [
             [
                 'role' => 'administrator',
-                'akses' => ['Web', 'Beranda', 'Profile'],
+                'akses' => ['Web', 'Beranda', 'Profile', 'layanan-siswa', 'layanan-ptk', 'layanan-yayasan', 'Pengguna'],
                 'action' => 'read',
             ],
             [
                 'role' => 'sekolah',
-                'akses' => ['Web', 'Beranda', 'Profile'],
+                'akses' => ['Web', 'Beranda', 'Profile', 'layanan-siswa', 'layanan-ptk', 'layanan-yayasan'],
+                'action' => 'read',
+            ],
+            [
+                'role' => 'dikdas',
+                'akses' => ['Web', 'Beranda', 'Profile', 'layanan-siswa', 'layanan-ptk', 'layanan-yayasan', 'Pengguna'],
+                'action' => 'read',
+            ],
+            [
+                'role' => 'dikmen',
+                'akses' => ['Web', 'Beranda', 'Profile', 'layanan-siswa', 'layanan-ptk', 'Pengguna'],
                 'action' => 'read',
             ],
         ];

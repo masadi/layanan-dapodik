@@ -51,17 +51,26 @@
                   <label for="name">Nama Lengkap</label>
                 </b-col>
                 <b-col sm="9">
-                  <b-form-input id="nama" type="text" v-model="name" :invalid-feedback="feedback_name" :state="name_State"></b-form-input>
-                  <p v-show="feedback_name" class="text-danger">{{feedback_name}}</p>
+                  <b-form-input id="nama" type="text" v-model="form.name" :invalid-feedback="feedback.name" :state="state.name"></b-form-input>
+                  <p v-show="feedback.name" class="text-danger">{{feedback.name}}</p>
                 </b-col>
               </b-row>
               <b-row class="mb-1">
                 <b-col sm="3">
-                  <label for="name">Email</label>
+                  <label for="email">Email</label>
                 </b-col>
                 <b-col sm="9">
-                  <b-form-input id="email" type="email" v-model="email" :invalid-feedback="feedback_email" :state="email_State" :readonly="readonly"></b-form-input>
-                  <p v-show="feedback_email" class="text-danger">{{feedback_email}}</p>
+                  <b-form-input id="email" type="email" v-model="form.email" :invalid-feedback="feedback.email" :state="state.email" :readonly="readonly"></b-form-input>
+                  <p v-show="feedback.email" class="text-danger">{{feedback.email}}</p>
+                </b-col>
+              </b-row>
+              <b-row class="mb-1">
+                <b-col sm="3">
+                  <label for="wa">Whatsapp Aktif</label>
+                </b-col>
+                <b-col sm="9">
+                  <b-form-input id="wa" v-model="form.wa" :invalid-feedback="feedback.wa" :state="state.wa"></b-form-input>
+                  <p v-show="feedback.wa" class="text-danger">{{feedback.wa}}</p>
                 </b-col>
               </b-row>
             </b-col>
@@ -149,6 +158,21 @@ export default {
   data() {
     return {
       isBusy: true,
+      form: {
+        name: null,
+        email: null,
+        wa: null,
+      },
+      feedback: {
+        name: null,
+        email: null,
+        wa: null,
+      },
+      state: {
+        name: null,
+        email: null,
+        wa: null,
+      },
       name: '',
       feedback_name: '',
       name_State: null,
@@ -186,8 +210,9 @@ export default {
       this.$http.get('/user/profile').then(response => {
         this.isBusy = false
         let data = response.data
-        this.name = data.name
-        this.email = data.email
+        this.form.name = data.name
+        this.form.email = data.email
+        this.form.wa = data.wa
         this.foto = data.profile_photo_path
         eventBus.$emit('foto', this.foto);
       })
@@ -202,23 +227,28 @@ export default {
       this.file = e.target.files[0];
     },
     handleSubmit(){
-      this.name_State = null
-      this.feedback_name = ''
-      this.email_State = null
-      this.feedback_email = ''
+      this.state.name = null
+      this.feedback.name = null
+      this.state.email = null
+      this.feedback.email = null
+      this.state.wa = null
+      this.feedback.wa = null
       this.fileState = null
       this.feedback_file = ''
       const form = new FormData();
       form.append('photo', (this.file) ? this.file : '');
-      form.append('name', this.name);
-      form.append('email', this.email);
+      form.append('name', this.form.name);
+      form.append('email', this.form.email);
+      form.append('wa', this.form.wa);
       this.$http.post('/user/update-profile', form).then(response => {
         let data = response.data
         if(data.errors){
-          this.name_State = (data.errors.name) ? false : null
-          this.feedback_name = (data.errors.name) ? data.errors.name.join(', ') : ''
-          this.email_State = (data.errors.email) ? false : null
-          this.feedback_email = (data.errors.email) ? data.errors.email.join(', ') : ''
+          this.state.name = (data.errors.name) ? false : null
+          this.feedback.name = (data.errors.name) ? data.errors.name.join(', ') : ''
+          this.state.email = (data.errors.email) ? false : null
+          this.feedback.email = (data.errors.email) ? data.errors.email.join(', ') : ''
+          this.state.wa = (data.errors.wa) ? false : null
+          this.feedback.wa = (data.errors.wa) ? data.errors.wa.join(', ') : ''
           this.fileState = (data.errors.photo) ? false : null
           this.feedback_file = (data.errors.photo) ? data.errors.photo.join(', ') : ''
         } else {
