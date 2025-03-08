@@ -19,7 +19,7 @@ export default [
   {
     path: '/pengguna',
     name: 'pengguna',
-    component: () => import('@/views/pages/Blank.vue'),
+    component: () => import('@/views/pages/Pengguna.vue'),
     meta: {
       resource: 'Web',
       action: 'read',

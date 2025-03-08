@@ -2,7 +2,7 @@ export default [
   {
     path: '/pengajuan-npyp',
     name: 'pengajuan-npyp',
-    component: () => import('@/views/pages/Blank.vue'),
+    component: () => import('@/views/yayasan/PengajuanNpyp.vue'),
     meta: {
       resource: 'Web',
       action: 'read',
@@ -31,7 +31,7 @@ export default [
   {
     path: '/pengajuan-kode-referral',
     name: 'pengajuan-kode-referral',
-    component: () => import('@/views/pages/Blank.vue'),
+    component: () => import('@/views/yayasan/KodeReferral.vue'),
     meta: {
       resource: 'Web',
       action: 'read',

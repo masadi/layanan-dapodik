@@ -45,6 +45,14 @@
         </b-form-group>
       </b-col>
       <b-col cols="12">
+        <b-form-group label-for="rombel" label-cols-md="3" :invalid-feedback="feedback.rombel" :state="state.rombel">
+          <template #label>
+              Rombel Tujuan <span class="text-danger">*</span>
+            </template>
+          <b-form-input v-model="form.rombel" :state="state.rombel" />
+        </b-form-group>
+      </b-col>
+      <b-col cols="12">
         <b-form-group label-for="npsn" label-cols-md="3" :invalid-feedback="feedback.npsn" :state="state.npsn">
           <template #label>
               NPSN Sekolah Asal <span class="text-danger">*</span>
@@ -65,11 +73,13 @@
           <template #label>
             Provinsi Sekolah Asal <span class="text-danger">*</span>
           </template>
-          <v-select id="provinsi_id" v-model="form.provinsi_id" :reduce="nama => nama.kode_wilayah" label="nama" :options="data_provinsi" placeholder="Pilih Provinsi" :state="state.provinsi_id">
-            <template #no-options="{ search, searching, loading }">
-              Tidak ada data untuk ditampilkan
-            </template>
-          </v-select>
+          <b-overlay :show="loading_provinsi" opacity="0.6" size="md" spinner-variant="secondary">
+            <v-select id="provinsi_id" v-model="form.provinsi_id" :reduce="nama => nama.kode_wilayah" label="nama" :options="data_provinsi" placeholder="Pilih Provinsi" :state="state.provinsi_id" @input="getKabupaten">
+              <template #no-options="{ search, searching, loading }">
+                Tidak ada data untuk ditampilkan
+              </template>
+            </v-select>
+          </b-overlay>
         </b-form-group>
       </b-col>
       <b-col cols="12">
@@ -78,7 +88,7 @@
             Kab/Kota Sekolah Asal <span class="text-danger">*</span>
           </template>
           <b-overlay :show="loading_kabupaten" opacity="0.6" size="md" spinner-variant="secondary">
-            <v-select id="kabupaten_id" v-model="form.kabupaten_id" :reduce="nama => nama.kode_wilayah" label="nama" :options="data_kabupaten" placeholder="Pilih Kabupaten/Kota" :state="state.kabupaten_id">
+            <v-select id="kabupaten_id" v-model="form.kabupaten_id" :reduce="nama => nama.kode_wilayah" label="nama" :options="data_kabupaten" placeholder="Pilih Kabupaten/Kota" :state="state.kabupaten_id" @input="getKecamatan">
               <template #no-options="{ search, searching, loading }">
                 Tidak ada data untuk ditampilkan
               </template>
@@ -98,6 +108,14 @@
               </template>
             </v-select>
           </b-overlay>
+        </b-form-group>
+      </b-col>
+      <b-col cols="12">
+        <b-form-group label-for="keterangan" label-cols-md="3">
+          <template #label>
+              Keterangan <span class="text-danger">*</span>
+            </template>
+          <b-form-input v-model="form.keterangan" />
         </b-form-group>
       </b-col>
     </b-row>
@@ -181,6 +199,7 @@ export default {
       form: {
         data: 'mutasi-masuk',
         id: null,
+        sekolah_id: null,
         nama: null,
         nisn: null,
         nik: null,
@@ -188,11 +207,14 @@ export default {
         tahun: null,
         bulan: null,
         tanggal: null,
+        tanggal_lahir: null,
+        rombel: null,
         npsn: null,
         nama_sekolah: null,
         provinsi_id: null,
         kabupaten_id: null,
         kecamatan_id: null,
+        keterangan: null,
       },
       feedback: {
         nama: null,
@@ -202,6 +224,7 @@ export default {
         tahun: null,
         bulan: null,
         tanggal: null,
+        rombel: null,
         npsn: null,
         nama_sekolah: null,
         provinsi_id: null,
@@ -217,12 +240,15 @@ export default {
         tahun: null,
         bulan: null,
         tanggal: null,
+        rombel: null,
         npsn: null,
         nama_sekolah: null,
         provinsi_id: null,
         kabupaten_id: null,
         kecamatan_id: null,
+        tanggal_lahir: null,
       },
+      loading_provinsi: false,
       data_provinsi: [],
       loading_kabupaten: false,
       data_kabupaten: [],
@@ -263,6 +289,8 @@ export default {
   },
   methods: {
     showModal(data){
+      this.form.sekolah_id = this.user.sekolah_id
+      this.getProvinsi();
       if(data){
         this.title = 'Edit Ajuan Mutasi Masuk'
         this.form.id = data.id
@@ -270,6 +298,7 @@ export default {
         this.form.nisn = data.nisn
         this.form.nik = data.nik
         this.form.tempat_lahir = data.tempat_lahir
+        this.form.rombel = data.rombel
         this.form.tahun = data.tahun
         this.form.bulan = data.bulan
         this.form.tanggal = data.tanggal
@@ -278,10 +307,42 @@ export default {
         //this.form.provinsi_id = data.provinsi_id
         //this.form.kabupaten_id = data.kabupaten_id
         this.form.kecamatan_id = data.kode_wilayah
+        this.form.tanggal_lahir = data.tahun+'-'+data.bulan+'-'+data.tanggal
+        this.form.keterangan = data.keterangan
+        this.getKabupaten();
+        this.getKecamatan();
       } else {
         this.title = 'Tambah Ajuan Mutasi Masuk'
       }
       this.showAddModal = true
+    },
+    getProvinsi(){
+      this.loading_provinsi = true
+      this.$http.post('/dashboard/wilayah').then(response => {
+        this.loading_provinsi = false
+        let getData = response.data
+        this.data_provinsi = getData
+      });
+    },
+    getKabupaten(val){
+      this.loading_kabupaten = true
+      this.$http.post('/dashboard/wilayah', {
+        provinsi_id:val,
+      }).then(response => {
+        this.loading_kabupaten = false
+        let getData = response.data
+        this.data_kabupaten = getData
+      });
+    },
+    getKecamatan(val){
+      this.loading_kecamatan = true
+      this.$http.post('/dashboard/wilayah', {
+        kabupaten_id: val,
+      }).then(response => {
+        this.loading_kecamatan = false
+        let getData = response.data
+        this.data_kecamatan = getData
+      });  
     },
     hideModal(){
       this.showAddModal = false
@@ -290,6 +351,7 @@ export default {
       this.form.nisn = null
       this.form.nik = null
       this.form.tempat_lahir = null
+      this.form.rombel = null
       this.form.tahun = null
       this.form.bulan = null
       this.form.tanggal = null
@@ -298,10 +360,12 @@ export default {
       this.form.provinsi_id = null
       this.form.kabupaten_id = null
       this.form.kecamatan_id = null
+      this.form.keterangan = null
       this.feedback.nama = null
       this.feedback.nisn = null
       this.feedback.nik = null
       this.feedback.tempat_lahir = null
+      this.feedback.rombel = null
       this.feedback.tahun = null
       this.feedback.bulan = null
       this.feedback.tanggal = null
@@ -316,6 +380,7 @@ export default {
       this.state.nisn = null
       this.state.nik = null
       this.state.tempat_lahir = null
+      this.state.rombel = null
       this.state.tahun = null
       this.state.bulan = null
       this.state.tanggal = null
@@ -324,6 +389,7 @@ export default {
       this.state.provinsi_id = null
       this.state.kabupaten_id = null
       this.state.kecamatan_id = null
+      this.state.tanggal_lahir = null
     },
     handleOk(bvModalEvent) {
       // Prevent modal from closing
@@ -332,6 +398,9 @@ export default {
       this.handleSubmit()
     },
     handleSubmit() {
+      if(this.form.tahun && this.form.bulan && this.form.tanggal){
+        this.form.tanggal_lahir = this.form.tahun+'-'+this.form.bulan+'-'+this.form.tanggal
+      }
       this.loading_modal = true
       this.$http.post('/datatables', this.form).then(response => {
         this.loading_modal = false
@@ -341,6 +410,7 @@ export default {
           this.feedback.nisn = (getData.errors.nisn) ? getData.errors.nisn.join(', ') : ''
           this.feedback.nik = (getData.errors.nik) ? getData.errors.nik.join(', ') : ''
           this.feedback.tempat_lahir = (getData.errors.tempat_lahir) ? getData.errors.tempat_lahir.join(', ') : ''
+          this.feedback.rombel = (getData.errors.rombel) ? getData.errors.rombel.join(', ') : ''
           this.feedback.tahun = (getData.errors.tahun) ? getData.errors.tahun.join(', ') : ''
           this.feedback.bulan = (getData.errors.bulan) ? getData.errors.bulan.join(', ') : ''
           this.feedback.tanggal = (getData.errors.tanggal) ? getData.errors.tanggal.join(', ') : ''
@@ -362,6 +432,8 @@ export default {
           this.state.provinsi_id = (getData.errors.provinsi_id) ? false : null
           this.state.kabupaten_id = (getData.errors.kabupaten_id) ? false : null
           this.state.kecamatan_id = (getData.errors.kecamatan_id) ? false : null
+          this.state.tanggal_lahir = (getData.errors.tanggal_lahir) ? false : null
+          this.state.rombel = (getData.errors.rombel) ? false : null
         } else {
           this.$swal({
             icon: getData.icon,

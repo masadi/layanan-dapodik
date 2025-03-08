@@ -40,36 +40,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function ptk()
-    {
-        return $this->hasOne(Ptk::class, 'ptk_id', 'ptk_id')->where('jenis_ptk_id', '<>', 0);
-    }
-    public function pd()
-    {
-        return $this->hasOne(Peserta_didik::class, 'peserta_didik_id', 'peserta_didik_id');
-    }
-    public function staf()
-    {
-        return $this->hasOne(Ptk::class, 'ptk_id', 'ptk_id')->where('jenis_ptk_id', 0);
-    }
     public function sekolah()
     {
         return $this->hasOne(Sekolah::class, 'sekolah_id', 'sekolah_id');
-    }
-    public function getLastLoginAtAttribute($date)
-    {
-        return ($date) ? Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/Y H:i:s') : '';
-    }
-    public function getLoginTerakhirAttribute()
-	{
-        if($this->attributes['last_login_at']){
-            return Carbon::parse($this->attributes['last_login_at'])->translatedFormat('d F Y').' Pukul '.Carbon::parse($this->attributes['last_login_at'])->format('H:i:s');
-        } else {
-            return '-';
-        }
-	}
-    public function getStatusPasswordAttribute(){
-        return (Hash::check($this->attributes['default_password'], $this->attributes['password'])) ? $this->attributes['default_password'] : 'custom';
     }
     public function abilities(){
         return $this->hasManyThrough(

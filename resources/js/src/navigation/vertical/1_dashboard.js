@@ -12,6 +12,20 @@ export default [
       children: [
         {
           icon: 'hand-click-icon',
+          title: 'Tarik PD',
+          route: 'tarik-pd',
+          resource: 'layanan-siswa',
+          action: 'read',
+        },
+        {
+          icon: 'hand-click-icon',
+          title: 'Recovery PD',
+          route: 'recovery-pd',
+          resource: 'layanan-siswa',
+          action: 'read',
+        },
+        {
+          icon: 'hand-click-icon',
           title: 'Mutasi Masuk',
           route: 'mutasi-masuk',
           resource: 'layanan-siswa',
@@ -30,6 +44,27 @@ export default [
       icon: 'school-icon',
       title: 'Layanan PTK',
       children: [
+        {
+          icon: 'hand-click-icon',
+          title: 'Tarik PTK',
+          route: 'tarik-ptk',
+          resource: 'layanan-ptk',
+          action: 'read',
+        },
+        {
+          icon: 'hand-click-icon',
+          title: 'Edit Penugasan',
+          route: 'edit-penugasan',
+          resource: 'layanan-ptk',
+          action: 'read',
+        },
+        {
+          icon: 'hand-click-icon',
+          title: 'Recovery PTK',
+          route: 'recovery-ptk',
+          resource: 'layanan-ptk',
+          action: 'read',
+        },
         {
           icon: 'hand-click-icon',
           title: 'Mutasi ASN',

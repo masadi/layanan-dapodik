@@ -35,6 +35,7 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
   Route::group(['prefix' => 'dashboard'], function () {
     Route::post('/', [DashboardController::class, 'index']);
+    Route::post('/wilayah', [DashboardController::class, 'get_wilayah']);
   });
   Route::group(['prefix' => 'datatables'], function () {
     Route::get('/', [DatatableController::class, 'index']);

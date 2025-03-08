@@ -21,7 +21,7 @@
       </b-media>
     </b-dropdown-text>
     <b-dropdown-divider />
-    <b-dropdown-item :to="{ name: 'personal-read' }" link-class="d-flex align-items-center">
+    <b-dropdown-item :to="{ name: 'profile' }" link-class="d-flex align-items-center">
       <feather-icon size="16" icon="UserIcon" class="mr-50" />
       <span>Profile</span>
     </b-dropdown-item>
@@ -79,7 +79,7 @@ export default {
       this.$ability.update(initialAbility)
 
       // Redirect to login page
-      this.$router.push({ name: 'homepage' })
+      this.$router.push({ name: 'auth-login' })
     },
   },
 }

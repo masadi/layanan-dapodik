@@ -19,6 +19,7 @@ return new class extends Migration
         Schema::create('mutasi_masuk', function (Blueprint $table) {
             $table->id();
             $table->uuid('sekolah_id');
+            $table->string('nama');
             $table->string('nisn', 10)->nullable();
             $table->string('nik', 16);
             $table->string('tempat_lahir', 50);
@@ -27,7 +28,7 @@ return new class extends Migration
             $table->string('npsn', 8);
             $table->string('nama_sekolah', 100);
             $table->string('kode_wilayah', 8);
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
             $table->unsignedSmallInteger('status')->default(0);
             $table->foreignId('approved_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();

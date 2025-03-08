@@ -1,8 +1,66 @@
 export default [
   {
+    path: '/tarik-pd',
+    name: 'tarik-pd',
+    component: () => import('@/views/pd/TarikPd.vue'),
+    meta: {
+      resource: 'Web',
+      action: 'read',
+      pageTitle: 'Tarik PD Emis',
+      breadcrumb: [
+        {
+          text: 'Layanan Siswa',
+        },
+        {
+          text: 'Tarik PD Emis',
+          active: true,
+        },
+      ],
+      tombol_add: [
+        {
+          action: 'add-tarik-pd',
+          link: '',
+          icon: 'plus',
+          variant: 'primary',
+          text: 'Ajuan Baru',
+          role: ['sekolah'],
+        }
+      ],
+    },
+  },
+  {
+    path: '/recovery-pd',
+    name: 'recovery-pd',
+    component: () => import('@/views/pd/RecoveryPd.vue'),
+    meta: {
+      resource: 'Web',
+      action: 'read',
+      pageTitle: 'Recovery Peserta Didik',
+      breadcrumb: [
+        {
+          text: 'Layanan Siswa',
+        },
+        {
+          text: 'Recovery Peserta Didik',
+          active: true,
+        },
+      ],
+      tombol_add: [
+        {
+          action: 'add-recovery-pd',
+          link: '',
+          icon: 'plus',
+          variant: 'primary',
+          text: 'Ajuan Baru',
+          role: ['sekolah'],
+        }
+      ],
+    },
+  },
+  {
     path: '/mutasi-masuk',
     name: 'mutasi-masuk',
-    component: () => import('@/views/MutasiMasuk.vue'),
+    component: () => import('@/views/pd/MutasiMasuk.vue'),
     meta: {
       resource: 'Web',
       action: 'read',
@@ -31,7 +89,7 @@ export default [
   {
     path: '/pindah-rombel',
     name: 'pindah-rombel',
-    component: () => import('@/views/pages/Blank.vue'),
+    component: () => import('@/views/pd/PindahRombel.vue'),
     meta: {
       resource: 'Web',
       action: 'read',
