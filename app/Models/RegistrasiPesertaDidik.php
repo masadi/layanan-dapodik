@@ -21,4 +21,28 @@ class RegistrasiPesertaDidik extends Model
             get: fn ($value) => User::find($value)?->name,
         );
     }
+    public function file_mutasi()
+    {
+        return $this->hasOne(Dokumen::class, 'table_id')->where('table_name', 'registrasi_peserta_didik')->where('jenis_data', 3);
+    }
+    public function file_ijazah()
+    {
+        return $this->hasOne(Dokumen::class, 'table_id')->where('table_name', 'registrasi_peserta_didik')->where('jenis_data', 1);
+    }
+    public function file_formulir()
+    {
+        return $this->hasOne(Dokumen::class, 'table_id')->where('table_name', 'registrasi_peserta_didik')->where('jenis_data', 1);
+    }
+    public function file_rapor()
+    {
+        return $this->hasOne(Dokumen::class, 'table_id')->where('table_name', 'registrasi_peserta_didik')->where('jenis_data', 1);
+    }
+    public function file_kk()
+    {
+        return $this->hasOne(Dokumen::class, 'table_id')->where('table_name', 'registrasi_peserta_didik')->where('jenis_data', 1);
+    }
+    public function file_akte()
+    {
+        return $this->hasOne(Dokumen::class, 'table_id')->where('table_name', 'registrasi_peserta_didik')->where('jenis_data', 1);
+    }
 }

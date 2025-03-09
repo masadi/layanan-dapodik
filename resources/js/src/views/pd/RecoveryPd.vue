@@ -1,20 +1,20 @@
 <template>
   <b-card>
     <datatable :isBusy="isBusy" :loading="loading" :actions="actions" :items="items" :fields="fields" :meta="meta" @per_page="handlePerPage" @pagination="handlePagination" @search="handleSearch" @sort="handleSort" @aksi="handleAksi" />
-    <ModalMutasiMasuk @reload="handleReload" :data="$route.name"></ModalMutasiMasuk>
+    <ModalPd @reload="handleReload" :data="$route.name"></ModalPd>
   </b-card>
 </template>
 
 <script>
 import { BCard } from 'bootstrap-vue'
 import Datatable from '@/views/components/Datatables.vue'
-import ModalMutasiMasuk from '@/views/components/modal/ModalMutasiMasuk.vue';
+import ModalPd from '@/views/components/modal/ModalPd.vue';
 import eventBus from '@core/utils/eventBus';
 export default {
   components: {
     BCard,
     Datatable,
-    ModalMutasiMasuk,
+    ModalPd,
   },
   data() {
     return {
@@ -32,14 +32,14 @@ export default {
           thClass: 'text-center',
         },
         {
-          key: 'nik',
-          label: 'NIK',
+          key: 'nisn',
+          label: 'NISN',
           sortable: true,
           thClass: 'text-center',
         },
         {
-          key: 'nisn',
-          label: 'NISN',
+          key: 'nik',
+          label: 'NIK',
           sortable: true,
           thClass: 'text-center',
         },

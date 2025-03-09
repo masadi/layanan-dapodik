@@ -13,9 +13,13 @@ return [
 
     'roles_structure' => [
         'administrator' => [],
-        'sekolah' => [],
         'dikdas' => [],
         'dikmen' => [],
+        'tk' => [],
+        'sd' => [],
+        'smp' => [],
+        'sma' => [],
+        'smk' => [],
     ],
 
     'permissions_map' => [

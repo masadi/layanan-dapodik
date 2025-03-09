@@ -23,7 +23,7 @@ export default [
           icon: 'plus',
           variant: 'primary',
           text: 'Ajuan Baru',
-          role: ['sekolah'],
+          role: ['tk', 'sd', 'smp', 'sma', 'smk'],
         }
       ],
     },
@@ -52,7 +52,7 @@ export default [
           icon: 'plus',
           variant: 'primary',
           text: 'Ajuan Baru',
-          role: ['sekolah'],
+          role: ['tk', 'sd', 'smp', 'sma', 'smk'],
         }
       ],
     },
@@ -81,7 +81,7 @@ export default [
           icon: 'plus',
           variant: 'primary',
           text: 'Ajuan Baru',
-          role: ['sekolah'],
+          role: ['tk', 'sd', 'smp', 'sma', 'smk'],
         }
       ],
     },
@@ -110,7 +110,7 @@ export default [
           icon: 'plus',
           variant: 'primary',
           text: 'Ajuan Baru',
-          role: ['sekolah'],
+          role: ['tk', 'sd', 'smp', 'sma', 'smk'],
         }
       ],
     },

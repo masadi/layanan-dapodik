@@ -112,7 +112,22 @@ class ReferensiSeeder extends Seeder
                 'action' => 'read',
             ],
             [
-                'role' => 'sekolah',
+                'role' => 'sd',
+                'akses' => ['Web', 'Beranda', 'Profile', 'layanan-siswa', 'layanan-ptk', 'layanan-yayasan'],
+                'action' => 'read',
+            ],
+            [
+                'role' => 'smp',
+                'akses' => ['Web', 'Beranda', 'Profile', 'layanan-siswa', 'layanan-ptk', 'layanan-yayasan'],
+                'action' => 'read',
+            ],
+            [
+                'role' => 'sma',
+                'akses' => ['Web', 'Beranda', 'Profile', 'layanan-siswa', 'layanan-ptk', 'layanan-yayasan'],
+                'action' => 'read',
+            ],
+            [
+                'role' => 'smk',
                 'akses' => ['Web', 'Beranda', 'Profile', 'layanan-siswa', 'layanan-ptk', 'layanan-yayasan'],
                 'action' => 'read',
             ],
@@ -152,8 +167,17 @@ class ReferensiSeeder extends Seeder
         return $response;
     }
     private function prosesData($result){
+        /*
+        1;"TK"
+        2;"KB"
+        3;"TPA"
+        4;"SPS"
+        5;"SD"
+        6;"SMP"
+        13;"SMA"
+        15;"SMK"
+        */
         $i=1;
-        $role = Role::where('name', 'sekolah')->first();
         foreach($result->data as $s){
             Sekolah::updateOrCreate(
                 [
@@ -183,6 +207,30 @@ class ReferensiSeeder extends Seeder
                 'description' => $s->nama,
                 'status' => 1,
             ]);
+            if($s->bentuk_pendidikan_id == 1){
+                $role = Role::where('name', 'tk')->first();
+            }
+            if($s->bentuk_pendidikan_id == 2){
+                $role = Role::where('name', 'tk')->first();
+            }
+            if($s->bentuk_pendidikan_id == 3){
+                $role = Role::where('name', 'tk')->first();
+            }
+            if($s->bentuk_pendidikan_id == 4){
+                $role = Role::where('name', 'tk')->first();
+            }
+            if($s->bentuk_pendidikan_id == 5){
+                $role = Role::where('name', 'sd')->first();
+            }
+            if($s->bentuk_pendidikan_id == 6){
+                $role = Role::where('name', 'smp')->first();
+            }
+            if($s->bentuk_pendidikan_id == 13){
+                $role = Role::where('name', 'sma')->first();
+            }
+            if($s->bentuk_pendidikan_id == 15){
+                $role = Role::where('name', 'smk')->first();
+            }
             $user->attachRole($role);
             //$this->info($i.'. '.$s->nama);
             $i++;

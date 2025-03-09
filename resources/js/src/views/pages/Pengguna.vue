@@ -1,20 +1,17 @@
 <template>
   <b-card>
     <datatable :isBusy="isBusy" :loading="loading" :actions="actions" :items="items" :fields="fields" :meta="meta" @per_page="handlePerPage" @pagination="handlePagination" @search="handleSearch" @sort="handleSort" @aksi="handleAksi" />
-    <ModalMutasiMasuk @reload="handleReload" :data="$route.name"></ModalMutasiMasuk>
   </b-card>
 </template>
 
 <script>
 import { BCard } from 'bootstrap-vue'
 import Datatable from '@/views/components/Datatables.vue'
-import ModalMutasiMasuk from '@/views/components/modal/ModalMutasiMasuk.vue';
 import eventBus from '@core/utils/eventBus';
 export default {
   components: {
     BCard,
     Datatable,
-    ModalMutasiMasuk,
   },
   data() {
     return {
